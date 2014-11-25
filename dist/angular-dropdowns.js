@@ -62,7 +62,8 @@ dd.directive('dropdownSelect', ['DropdownService',
       scope: {
         dropdownSelect: '=',
         dropdownModel: '=',
-        dropdownOnchange: '&'
+        dropdownOnchange: '&',
+        dropdownStopPropagation: '&'
       },
 
       controller: ['$scope', '$element', '$attrs', function ($scope, $element, $attrs) {
@@ -80,7 +81,9 @@ dd.directive('dropdownSelect', ['DropdownService',
         };
 
         $element.bind('click', function (event) {
-          event.stopPropagation();
+          if (!$attrs.dropdownStopPropagation || $scope.dropdownStopPropagation()) {
+            event.stopPropagation();
+          }
           DropdownService.toggleActive($element);
         });
 
